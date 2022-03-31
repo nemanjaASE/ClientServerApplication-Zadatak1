@@ -59,10 +59,18 @@ namespace Server
                 do
                 {
                     string line;
+                    string[] tokens;
                     try
                     {
                         line = sr.ReadLine();
-                        Console.WriteLine("# From client: " + line);
+
+                        if (line != null)
+                        {
+                            tokens = line.Split(delim, System.StringSplitOptions.RemoveEmptyEntries);
+                            Console.WriteLine("# From client: " + line);
+                        }
+                        else
+                            return 0;
                     }
                     catch (Exception)
                     {
@@ -74,10 +82,6 @@ namespace Server
                         socket.Close();
                         return -1;
                     }
-
-                    
-                    string[] tokens = line.Split(delim, System.StringSplitOptions.RemoveEmptyEntries);
-
                     msg = "";
                     if (tokens[0].Equals("EXIT"))
                     {
@@ -151,7 +155,7 @@ namespace Server
 
                     sw.WriteLine(msg + "END");
 
-                } while (!msg.Equals("EXIT"));
+                } while (true);
                 
             }
             catch (Exception e)

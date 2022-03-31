@@ -34,6 +34,7 @@ namespace Client
                 StreamReader sr = new StreamReader(stream);
                 StreamWriter sw = new StreamWriter(stream) { NewLine = "\r\n", AutoFlush = true};
                 string line = "";
+                bool shutdown = false;
                 do
                 {
                     string input = Console.ReadLine();
@@ -42,11 +43,16 @@ namespace Client
                     do
                     {
                         line = sr.ReadLine();
+                        if (line.Equals("EXIT"))
+                        {
+                            shutdown = true;
+                            break;
+                        }
                         if(!line.Equals("END"))
                             Console.WriteLine(line);
                     } while (!line.Equals("END"));
 
-                } while (!line.Equals("EXIT"));
+                } while (!shutdown);
 
                 sw.Close();
                 sr.Close();
